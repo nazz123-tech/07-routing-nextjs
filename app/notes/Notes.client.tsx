@@ -12,6 +12,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import 'modern-normalize';
 
 
+
 function NotesClient(){
   
  const [isModalOpen, setIsModalOpen]=useState<boolean>(false)
@@ -33,6 +34,7 @@ function NotesClient(){
  }
 const notes=query.data?.notes ?? []
 const totalPages = query.data?.totalPages ?? 0;
+
   return (
       <div className={css.app}>
 	      <header className={css.toolbar}>

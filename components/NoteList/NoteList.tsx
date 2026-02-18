@@ -1,3 +1,4 @@
+"use client";
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { deleteNote } from '../../lib/api'
 import type { Note } from '../../types/note'
@@ -10,7 +11,7 @@ interface NoteListProps {
 }
 
 export default function NoteList({ notes }: NoteListProps) {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
     mutationFn: deleteNote,

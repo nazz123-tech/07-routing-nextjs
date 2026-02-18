@@ -2,7 +2,7 @@
 import css from './NoteDetails.module.css';
 import { useQuery } from "@tanstack/react-query";
 import { fetchNoteById } from "../../../lib/api";
-
+import { notFound } from "next/navigation";
 type Props = {
   noteId: string;
 };
@@ -13,10 +13,14 @@ const NoteDetailsClient = ({ noteId }: Props) => {
     queryFn: () => fetchNoteById(noteId),
     refetchOnMount: false,
   });
+  if (!note){
+    notFound()
+  }
+
     if (isLoading) {
     return <p>Loading, please wait...</p>
   }
-  if (isError || !note) {
+  if (isError) {
     return <p>Something went wrong.</p>
   }
   return (

@@ -63,3 +63,22 @@ const res = await axios.get<Note>(`https://notehub-public.goit.study/api/notes/$
 );
   return res.data;
 };
+
+export const fetchNotesByTag = async (
+  tag?: string,
+  page: number = 1,
+  perPage: number = 20
+): Promise<FetchNotesResponse> => {
+  const response = await axios.get<FetchNotesResponse>(
+    "https://notehub-public.goit.study/api/notes",
+    {
+      params: { tag, page, perPage},
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${NEXT_PUBLIC_NOTE_TOKEN}`,
+      },
+    }
+  );
+
+  return response.data;
+};

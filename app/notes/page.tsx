@@ -6,6 +6,7 @@ import {
 import { fetchNotes } from '../../lib/api'
 import NotesClient from "./Notes.client";
 
+
 export default async function Notes(){
   const queryClient = new QueryClient();
 
