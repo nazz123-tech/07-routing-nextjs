@@ -5,27 +5,56 @@ export interface FetchNotesResponse{
     notes: Note[],
     totalPages:number
 }
-
+interface FetchNotesParams {
+  search?: string;
+  page?: number;
+  perPage: number;
+  tag?: string;
+}
 const NEXT_PUBLIC_NOTE_TOKEN=process.env.NEXT_PUBLIC_NOTEHUB_TOKEN
 
+const tags = ['all', 'Todo', 'Personal', 'Work', 'Meeting', 'Shopping'];
+
 export const fetchNotes = async (
-    search?:string,
-    page: number = 1,
-    perPage : number = 10
-) :Promise<FetchNotesResponse> =>{
-    const response = await axios.get<FetchNotesResponse>("https://notehub-public.goit.study/api/notes", 
-        {params:{
-            ...(search && { search }),
-            page,
-            perPage
-        },
-         headers: {
-      accept: 'application/json',
+  tag: string,
+  query?: string,
+  page?: number,
+): Promise<FetchNotesResponse> => {
+  const baseUrl = 'https://notehub-public.goit.study/api/notes';
+
+  if (!tags.includes(tag)) {
+    throw new Error(`Invalid tag: ${tag}`);
+  }
+
+  const params: FetchNotesParams = {
+    perPage: 12,
+  };
+
+  if (query) {
+    params.search = query;
+  }
+
+  if (page) {
+    params.page = page;
+  }
+
+  if (tag !== 'all') {
+    params.tag = tag;
+  }
+
+  const response = await axios.get<FetchNotesResponse>(baseUrl, {
+    headers: {
       Authorization: `Bearer ${NEXT_PUBLIC_NOTE_TOKEN}`,
+      accept: 'application/json',
     },
-    })
-    return response.data;
-}
+    params,
+  });
+
+  return {
+    notes: response.data.notes,
+    totalPages: response.data.totalPages,
+  };
+};
 export interface CreateNotePayload {
   title: string;
   content: string;

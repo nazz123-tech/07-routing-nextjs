@@ -10,7 +10,7 @@ export default function SidebarNotes(){
         </Link>
       </li>
     {categories.map((category)=>(
-        <li key={category}>
+        <li className={css.menuItem} key={category}>
           <Link className={css.menuLink} href={`/notes/filter/${category}`}>{category}</Link>
         </li>))}
     </ul>
